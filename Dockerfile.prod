@@ -8,7 +8,9 @@ FROM ghcr.io/emfcamp/website-base:latest
 COPY . /app/
 WORKDIR /app
 
-RUN poetry install --no-dev && poetry run pyppeteer-install && mkdir /var/prometheus \
+RUN poetry install --no-dev \
+	&& poetry run playwright install-deps && poetry run playwright install chromium \
+	&& mkdir /var/prometheus \
 	&& rm -Rf ./static
 
 COPY --from=static /app/static /app/static
