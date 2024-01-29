@@ -3699,17 +3699,18 @@ tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
 [[package]]
 name = "stripe"
-version = "2.38.0"
+version = "8.0.0"
 description = "Python bindings for the Stripe API"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+python-versions = ">=3.6"
 files = [
-    {file = "stripe-2.38.0-py2.py3-none-any.whl", hash = "sha256:ea26abb9c4f6eea94dda630157a1f713e5925b9ccec0fbac5e53a9c6e4541bbd"},
-    {file = "stripe-2.38.0.tar.gz", hash = "sha256:b37bc34045b2becad6ce40a5ca0abd3c83ee2528e3dce0149026b29f30ac90a6"},
+    {file = "stripe-8.0.0-py2.py3-none-any.whl", hash = "sha256:0c6c7ded4ae98340107a9d61f2d029ea0802ee88580c9bebb3693230557e766c"},
+    {file = "stripe-8.0.0.tar.gz", hash = "sha256:16d9086c95801fb6931565ff8a3dd7ca3e85beb4cb6fdb2020e555f4254ff643"},
 ]
 
 [package.dependencies]
 requests = {version = ">=2.20", markers = "python_version >= \"3.0\""}
+typing-extensions = {version = ">=4.5.0", markers = "python_version >= \"3.7\""}
 
 [[package]]
 name = "tinycss2"
@@ -4316,4 +4317,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "f78a2d4b8556b815794afc47a6a4736a8c715b1c4621ea33c6f1d1bc15d940f0"
+content-hash = "01d1fc86dd207c6c21c5bdcc5aec32915fe0a15162bac6ea12dde4f5a1acf854"
