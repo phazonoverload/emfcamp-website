@@ -56,6 +56,7 @@ from .forms import (
     AddNoteForm,
     ChangeProposalOwner,
     ReversionForm,
+    InviteSpeakerForm,
 )
 from . import (
     cfp_review,
@@ -1230,6 +1231,35 @@ def proposals_summary():
         counts_by_type=counts_by_type,
         counts_by_state=counts_by_state,
     )
+
+
+@cfp_review.route("/invite-speaker", methods=["GET", "POST"])
+@admin_required
+def invite_speaker():
+    form = InviteSpeakerForm()
+
+    if form.validate_on_submit():
+        email, name, reason = form.email.data, form.name.data, form.invite_reason.data
+        user = User(email, name)
+        user.cfp_invite_reason = reason
+
+        db.session.add(user)
+        db.session.commit()
+
+        app.logger.info(
+            f"{current_user.id} created a new user {user} ({email}) to invite to the cfp"
+        )
+
+        code = user.login_code(app.config["SECRET_KEY"])
+
+        return render_template(
+            "cfp_review/invite-speaker-complete.html",
+            user=user,
+            login_code=code,
+            proposal_type=form.proposal_type.data,
+        )
+
+    return render_template("cfp_review/invite-speaker.html", form=form)
 
 
 from . import venues  # noqa
