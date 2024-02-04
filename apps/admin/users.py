@@ -69,6 +69,10 @@ def user(user_id):
     class UserForm(Form):
         note = StringField("Check-in note (will be shown to check-in operator)")
         add_note = SubmitField("Save Note")
+
+        cfp_invite_reason = StringField("Indicates an invited speaker")
+        save_cfp_invite_reason = SubmitField("Save invite reason")
+
         change_permissions = SubmitField("Change")
 
     for permission in permissions:
@@ -84,6 +88,7 @@ def user(user_id):
 
     if form.validate_on_submit():
         if form.change_permissions.data:
+            flash("Updated user's permissions")
             for permission in permissions:
                 field = getattr(form, "permission_" + permission.name)
                 if user.has_permission(permission.name, False) != field.data:
@@ -101,15 +106,19 @@ def user(user_id):
                     else:
                         user.revoke_permission(permission.name)
 
-                    db.session.commit()
-
         elif form.add_note.data:
+            flash("Updated user's checkin note")
             user.checkin_note = form.note.data
-            db.session.commit()
 
+        elif form.save_cfp_invite_reason.data:
+            flash("Updated user's cfp invite reason")
+            user.cfp_invite_reason = form.cfp_invite_reason.data
+
+        db.session.commit()
         return redirect(url_for(".user", user_id=user.id))
 
     form.note.data = user.checkin_note
+    form.cfp_invite_reason.data = user.cfp_invite_reason
     return render_template(
         "admin/users/user.html", user=user, form=form, permissions=permissions
     )
